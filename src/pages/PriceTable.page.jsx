@@ -1,5 +1,11 @@
 import React from 'react';
-import {createColumnHelper, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {
+    createColumnHelper,
+    flexRender,
+    getCoreRowModel,
+    getPaginationRowModel,
+    useReactTable
+} from "@tanstack/react-table";
 import {USERS} from "../data";
 import { useState } from "react";
 
@@ -34,7 +40,8 @@ const PriceTablePage = () => {
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel:getCoreRowModel()
+        getCoreRowModel:getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel()
     })
 
 
@@ -56,10 +63,12 @@ const PriceTablePage = () => {
 
                 <tbody>
                 {table.getRowModel().rows.length ? (
-                    table.getRowModel().rows.map((row) => (
-                        <tr key={row.id}>
+                    table.getRowModel().rows.map((row, i) => (
+                        <tr key={row.id} className={`
+        ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}
+        `}>
                             {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id}>
+                                <td key={cell.id} className="px-3.5 py-2">
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -67,7 +76,27 @@ const PriceTablePage = () => {
                     ))
                 ) : null}
                 </tbody>
+
             </table>
+
+            {/* pagination */}
+            <div className="flex items-center justify-end mt-2 gap-2">
+                <button
+                    onClick={() => {
+                        table.previousPage();
+                    }}
+                    className="p-1 border border-gray-300 px-2 disabled:opacity-30">
+                    {"<"}
+
+                </button>
+                <button
+                    onClick={() => {
+                        table.nextPage();
+                    }}
+                    className="p-1 border border-gray-300 px-2 disabled:opacity-30">
+                    {">"}
+                </button>
+            </div>
 
 
         </div>
