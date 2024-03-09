@@ -85,6 +85,7 @@ const PriceTablePage = () => {
                     onClick={() => {
                         table.previousPage();
                     }}
+                    disabled={!table.getCanPreviousPage()}
                     className="p-1 border border-gray-300 px-2 disabled:opacity-30">
                     {"<"}
 
@@ -93,9 +94,42 @@ const PriceTablePage = () => {
                     onClick={() => {
                         table.nextPage();
                     }}
+                    disabled={!table.getCanNextPage()}
                     className="p-1 border border-gray-300 px-2 disabled:opacity-30">
                     {">"}
                 </button>
+
+                <span className="flex items-center gap-1">
+                    <div>Page</div>
+                    <strong>
+                        {table.getState().pagination.pageIndex + 1} of{""}
+                        {table.getPageCount()}
+                    </strong>
+                </span>
+                <span className="flex items-center gap-1">| Go to page:
+                    <input
+                    type="number"
+                    defaultChecked={table.getState().pagination.pageIndex + 1}
+                    onClick={(e)=>{
+                        const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                        table.setPageIndex(page);
+                    }}
+                    className="border p-1 rounded w-16 bg-transparent"
+                    />
+                </span>
+                <select value={table.getState().pagination.pageSize}
+                onClick={(e) => {
+                    table.setPageSize(Number(e.target.value));
+                }}
+                        className="p-2 bg-transparent"
+                >
+                    {[10, 20, 30, 50].map((pageSize) =>(
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+
+                </select>
             </div>
 
 
