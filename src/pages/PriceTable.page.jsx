@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-table";
 import {USERS} from "../data";
 import { useState } from "react";
+import DownloadBTN from "../DownloadBTN";
 
 
 
@@ -48,6 +49,9 @@ const PriceTablePage = () => {
     return (
 
         <div className="p-2 max-w-5xl mx-auto text-white fill-gray-400">
+            <div className="flex justify-between mb-2">
+                <DownloadBTN data={data} fileName={"TokensPrice"}/>
+            </div>
             <table className="border border-gray-700 w-full text-left">
                 <thead className="bg-indigo-600">
                 {table.getHeaderGroups().map((headerGroup) => (
