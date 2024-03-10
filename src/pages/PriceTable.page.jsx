@@ -2,13 +2,16 @@ import React from 'react';
 import {
     createColumnHelper,
     flexRender,
-    getCoreRowModel,
+    getCoreRowModel, getFilteredRowModel,
     getPaginationRowModel,
     useReactTable
 } from "@tanstack/react-table";
 import {USERS} from "../data";
 import { useState } from "react";
 import DownloadBTN from "../DownloadBTN";
+import DeBouncedInput from "../DeBouncedInput";
+import { FaSearch } from "react-icons/fa";
+
 
 
 
@@ -36,11 +39,16 @@ const PriceTablePage = () => {
     ]
 
     const [data] = useState(()=>[...USERS])
+    const [globalFilter, setGlobalFilter] = useState("");
 
 
     const table = useReactTable({
         data,
         columns,
+        state:{
+            globalFilter
+        },
+        getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel:getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel()
     })
@@ -50,6 +58,15 @@ const PriceTablePage = () => {
 
         <div className="p-2 max-w-5xl mx-auto text-white fill-gray-400">
             <div className="flex justify-between mb-2">
+                <div className="">
+                    <FaSearch />
+                    <DeBouncedInput
+                        value={globalFilter ?? ""}
+                        onChange={(value) => setGlobalFilter(String(value))}
+                        className="p-2 bg-transparent outline-none border-b-2 w-10/12 focus:w-1/3 duration-300 border-indigo-50"
+                        placeholder="Search..."
+                    />
+                </div>
                 <DownloadBTN data={data} fileName={"TokensPrice"}/>
             </div>
             <table className="border border-gray-700 w-full text-left">
