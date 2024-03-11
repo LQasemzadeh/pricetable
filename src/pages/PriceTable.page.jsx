@@ -6,16 +6,17 @@ import {
     getPaginationRowModel,
     useReactTable
 } from "@tanstack/react-table";
-import {USERS} from "../data";
-import { useState } from "react";
-import DownloadBTN from "../DownloadBTN";
-import DeBouncedInput from "../DeBouncedInput";
+import { useState, useEffect } from "react";
+import DownloadBTN from "../components/DownloadBTN";
+import DeBouncedInput from "../components/DeBouncedInput";
 import { FaSearch } from "react-icons/fa";
-
-
+import {USERS} from "../data";
+import {baseUrl} from "../constants/api";
+;
 
 
 const PriceTablePage = () => {
+    
     const columnHelper = createColumnHelper()
 
 
@@ -25,21 +26,26 @@ const PriceTablePage = () => {
            cell: (info) => <span>{info.row.index + 1}</span>,
            header: "#",
         }),
-        columnHelper.accessor("Token",{
+        columnHelper.accessor("icon",{
             cell: (info)=> (
                 <img src={info?.getValue()} alt="" className="rounded-full w-10 h-10 object-cover" />
             ),
-            header: "Token",
+            header: "icon",
         }),
-        columnHelper.accessor("Price",{
+        columnHelper.accessor("symbol",{
             cell: (info)=> <span>{info.getValue()}</span>,
-            header: "Price",
+            header: "symbol",
+        }),
+        columnHelper.accessor("price",{
+            cell: (info)=> <span>{info.getValue()}</span>,
+            header: "price",
         }),
 
     ]
 
-    const [data] = useState(()=>[...USERS])
+    const [data, setData] = useState(()=>[...baseUrl])
     const [globalFilter, setGlobalFilter] = useState("");
+
 
 
     const table = useReactTable({
@@ -54,16 +60,17 @@ const PriceTablePage = () => {
     })
 
 
+
     return (
 
         <div className="p-2 max-w-5xl mx-auto text-white fill-gray-400">
             <div className="flex justify-between mb-2">
-                <div className="">
+                <div className="w-full flex items-center gap-2">
                     <FaSearch />
                     <DeBouncedInput
                         value={globalFilter ?? ""}
                         onChange={(value) => setGlobalFilter(String(value))}
-                        className="p-2 bg-transparent outline-none border-b-2 w-10/12 focus:w-1/3 duration-300 border-indigo-50"
+                        className="p-2 bg-transparent outline-none border-b-2 w-1/5 focus:w-1/3 duration-300 border-indigo-50"
                         placeholder="Search..."
                     />
                 </div>
@@ -95,7 +102,11 @@ const PriceTablePage = () => {
                             ))}
                         </tr>
                     ))
-                ) : null}
+                ) : (
+                    <tr className="text-center h-32">
+                        <td colSpan={12}>No Record Found!</td>
+                    </tr>
+                )}
                 </tbody>
 
             </table>
