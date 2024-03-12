@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
     "@tanstack/match-sorter-utils": "^8.11.8",
     "@tanstack/react-table": "^8.13.2",
     "@testing-library/jest-dom": "^5.17.0",

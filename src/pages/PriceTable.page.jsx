@@ -10,13 +10,12 @@ import { useState, useEffect } from "react";
 import DownloadBTN from "../components/DownloadBTN";
 import DeBouncedInput from "../components/DeBouncedInput";
 import { FaSearch } from "react-icons/fa";
-import {USERS} from "../data";
-import {baseUrl} from "../constants/api";
-;
+import { Tokens, baseUrl } from "../constants/api";
+
 
 
 const PriceTablePage = () => {
-    
+
     const columnHelper = createColumnHelper()
 
 
